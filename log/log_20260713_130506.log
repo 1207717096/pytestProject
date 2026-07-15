@@ -1,0 +1,314 @@
+2026-07-13 13:05:06 conftest.py:<module> 38 [INFO]: [Allure] 本次运行结果目录: /Users/yefenglei/Desktop/python-test-api/allure-results/results_20260713_130506
+2026-07-13 13:05:06 conftest.py:pytest_configure 56 [INFO]: [Allure] 环境信息已写入: /Users/yefenglei/Desktop/python-test-api/allure-results/results_20260713_130506/environment.properties
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 83 [INFO]: ============================================================
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 84 [INFO]: 【测试执行开始】
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 85 [INFO]: 开始时间: 2026-07-13 13:05:06
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 86 [INFO]: Allure 结果目录: /Users/yefenglei/Desktop/python-test-api/allure-results/results_20260713_130506
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 87 [INFO]: 日志文件: /Users/yefenglei/Desktop/python-test-api/log/log_20260713_130506.log
+2026-07-13 13:05:06 conftest.py:pytest_sessionstart 88 [INFO]: ============================================================
+2026-07-13 13:05:06 conftest.py:pytest_collection_modifyitems 94 [INFO]: 共收集到 2 个测试用例
+2026-07-13 13:05:06 conftest.py:pytest_collection_modifyitems 97 [INFO]:   - test_runner_29.py::TestRunner::test_case[case0]
+2026-07-13 13:05:06 conftest.py:pytest_collection_modifyitems 97 [INFO]:   - test_runner_29.py::TestRunner::test_case[case1]
+2026-07-13 13:05:06 conftest.py:allure_session_setup 207 [INFO]: [Allure] 测试会话初始化完成
+2026-07-13 13:05:06 test_runner_29.py:test_case 16 [INFO]: {'method': 'post', 'path': '/login', 'headers': None, 'params': None, 'data': "{'username':'admin','paswword':'admin'}", 'json': None, 'files': None, 'excepted': '登录成功'}
+2026-07-13 13:05:09 conftest.py:pytest_runtest_makereport 129 [INFO]: 【用例结果】test_runner_29.py::TestRunner::test_case[case0] | FAILED | 耗时: 2.983s
+2026-07-13 13:05:09 conftest.py:pytest_runtest_makereport 142 [ERROR]: 【错误详情】test_runner_29.py::TestRunner::test_case[case0]:
+self = <Response [502]>, kwargs = {}
+
+    def json(self, **kwargs: Any) -> Any:
+        r"""Decodes the JSON response body (if any) as a Python object.
+    
+        This may return a dictionary, list, etc. depending on what is in the response.
+    
+        :param \*\*kwargs: Optional arguments that ``json.loads`` takes.
+        :raises requests.exceptions.JSONDecodeError: If the response body does not
+            contain valid json.
+        """
+    
+        if not self.encoding and self.content and len(self.content) > 3:
+            # No encoding set. JSON RFC 4627 section 3 states we should expect
+            # UTF-8, -16 or -32. Detect which one to use; If the detection or
+            # decoding fails, fall back to `self.text` (using charset_normalizer to make
+            # a best guess).
+            encoding = guess_json_utf(self.content)
+            if encoding is not None:
+                try:
+                    return complexjson.loads(self.content.decode(encoding), **kwargs)
+                except UnicodeDecodeError:
+                    # Wrong UTF codec detected; usually because it's not UTF-8
+                    # but some other 8-bit codec.  This is an RFC violation,
+                    # and the server didn't bother to tell us what codec *was*
+                    # used.
+                    pass
+                except JSONDecodeError as e:
+                    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+    
+        try:
+>           return complexjson.loads(self.text, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/requests/models.py:1116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py:352: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:345: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x103431a90>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:363: JSONDecodeError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_runner_29.TestRunner object at 0x10cd74b90>
+case = {'method': 'post', 'path': '/login', 'headers': None, 'params': None, ...}
+
+    @pytest.mark.parametrize("case",data)
+    def test_case(self,case):
+        # print(case)
+        logging.info(case)
+        #数据解析：1、url不存在；2、部分字符串的值变为字典；3、预期结果不能在请求中传输，会报错
+        method = case['method']
+        url = 'http://127.0.0.1:8888/api/private/v1'+case['path']
+        headers = eval(case['headers']) if isinstance(case['headers'], str) else None
+        params = eval(case['params']) if isinstance(case['params'], str) else None
+        data = eval(case["data"]) if isinstance(case["data"], str) else None
+        json = eval(case['json']) if isinstance(case['json'], str) else None
+        files = eval(case['files']) if isinstance(case['files'], str) else None
+    
+        request_data = {
+            'method': method,
+            'url': url,
+            'headers': headers,
+            'params': params,
+            'data': data,
+            'json': json,
+            'files': files
+        }
+        # print(request_data)
+        res = requests.request(**request_data)
+        # print(res.json())
+>       assert res.json()['meta']['msg'] == case['expected']
+               ^^^^^^^^^^
+
+test_runner_29.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Response [502]>, kwargs = {}
+
+    def json(self, **kwargs: Any) -> Any:
+        r"""Decodes the JSON response body (if any) as a Python object.
+    
+        This may return a dictionary, list, etc. depending on what is in the response.
+    
+        :param \*\*kwargs: Optional arguments that ``json.loads`` takes.
+        :raises requests.exceptions.JSONDecodeError: If the response body does not
+            contain valid json.
+        """
+    
+        if not self.encoding and self.content and len(self.content) > 3:
+            # No encoding set. JSON RFC 4627 section 3 states we should expect
+            # UTF-8, -16 or -32. Detect which one to use; If the detection or
+            # decoding fails, fall back to `self.text` (using charset_normalizer to make
+            # a best guess).
+            encoding = guess_json_utf(self.content)
+            if encoding is not None:
+                try:
+                    return complexjson.loads(self.content.decode(encoding), **kwargs)
+                except UnicodeDecodeError:
+                    # Wrong UTF codec detected; usually because it's not UTF-8
+                    # but some other 8-bit codec.  This is an RFC violation,
+                    # and the server didn't bother to tell us what codec *was*
+                    # used.
+                    pass
+                except JSONDecodeError as e:
+                    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+    
+        try:
+            return complexjson.loads(self.text, **kwargs)
+        except JSONDecodeError as e:
+            # Catch JSON-related errors and raise as requests.JSONDecodeError
+            # This aliases json.JSONDecodeError and simplejson.JSONDecodeError
+>           raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+E           requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/requests/models.py:1120: JSONDecodeError
+2026-07-13 13:05:09 conftest.py:allure_case_setup 220 [INFO]: [Allure] 用例 test_case[case0] 已记录
+2026-07-13 13:05:09 test_runner_29.py:test_case 16 [INFO]: {'method': 'get', 'path': '/users', 'headers': None, 'params': "{'pagenum':1,'pagesize':1}", 'data': None, 'json': None, 'files': None, 'excepted': '无效token'}
+2026-07-13 13:05:12 conftest.py:pytest_runtest_makereport 129 [INFO]: 【用例结果】test_runner_29.py::TestRunner::test_case[case1] | FAILED | 耗时: 3.065s
+2026-07-13 13:05:12 conftest.py:pytest_runtest_makereport 142 [ERROR]: 【错误详情】test_runner_29.py::TestRunner::test_case[case1]:
+self = <Response [502]>, kwargs = {}
+
+    def json(self, **kwargs: Any) -> Any:
+        r"""Decodes the JSON response body (if any) as a Python object.
+    
+        This may return a dictionary, list, etc. depending on what is in the response.
+    
+        :param \*\*kwargs: Optional arguments that ``json.loads`` takes.
+        :raises requests.exceptions.JSONDecodeError: If the response body does not
+            contain valid json.
+        """
+    
+        if not self.encoding and self.content and len(self.content) > 3:
+            # No encoding set. JSON RFC 4627 section 3 states we should expect
+            # UTF-8, -16 or -32. Detect which one to use; If the detection or
+            # decoding fails, fall back to `self.text` (using charset_normalizer to make
+            # a best guess).
+            encoding = guess_json_utf(self.content)
+            if encoding is not None:
+                try:
+                    return complexjson.loads(self.content.decode(encoding), **kwargs)
+                except UnicodeDecodeError:
+                    # Wrong UTF codec detected; usually because it's not UTF-8
+                    # but some other 8-bit codec.  This is an RFC violation,
+                    # and the server didn't bother to tell us what codec *was*
+                    # used.
+                    pass
+                except JSONDecodeError as e:
+                    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+    
+        try:
+>           return complexjson.loads(self.text, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/requests/models.py:1116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py:352: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:345: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x103431a90>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:363: JSONDecodeError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_runner_29.TestRunner object at 0x10cdd1090>
+case = {'method': 'get', 'path': '/users', 'headers': None, 'params': "{'pagenum':1,'pagesize':1}", ...}
+
+    @pytest.mark.parametrize("case",data)
+    def test_case(self,case):
+        # print(case)
+        logging.info(case)
+        #数据解析：1、url不存在；2、部分字符串的值变为字典；3、预期结果不能在请求中传输，会报错
+        method = case['method']
+        url = 'http://127.0.0.1:8888/api/private/v1'+case['path']
+        headers = eval(case['headers']) if isinstance(case['headers'], str) else None
+        params = eval(case['params']) if isinstance(case['params'], str) else None
+        data = eval(case["data"]) if isinstance(case["data"], str) else None
+        json = eval(case['json']) if isinstance(case['json'], str) else None
+        files = eval(case['files']) if isinstance(case['files'], str) else None
+    
+        request_data = {
+            'method': method,
+            'url': url,
+            'headers': headers,
+            'params': params,
+            'data': data,
+            'json': json,
+            'files': files
+        }
+        # print(request_data)
+        res = requests.request(**request_data)
+        # print(res.json())
+>       assert res.json()['meta']['msg'] == case['expected']
+               ^^^^^^^^^^
+
+test_runner_29.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Response [502]>, kwargs = {}
+
+    def json(self, **kwargs: Any) -> Any:
+        r"""Decodes the JSON response body (if any) as a Python object.
+    
+        This may return a dictionary, list, etc. depending on what is in the response.
+    
+        :param \*\*kwargs: Optional arguments that ``json.loads`` takes.
+        :raises requests.exceptions.JSONDecodeError: If the response body does not
+            contain valid json.
+        """
+    
+        if not self.encoding and self.content and len(self.content) > 3:
+            # No encoding set. JSON RFC 4627 section 3 states we should expect
+            # UTF-8, -16 or -32. Detect which one to use; If the detection or
+            # decoding fails, fall back to `self.text` (using charset_normalizer to make
+            # a best guess).
+            encoding = guess_json_utf(self.content)
+            if encoding is not None:
+                try:
+                    return complexjson.loads(self.content.decode(encoding), **kwargs)
+                except UnicodeDecodeError:
+                    # Wrong UTF codec detected; usually because it's not UTF-8
+                    # but some other 8-bit codec.  This is an RFC violation,
+                    # and the server didn't bother to tell us what codec *was*
+                    # used.
+                    pass
+                except JSONDecodeError as e:
+                    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+    
+        try:
+            return complexjson.loads(self.text, **kwargs)
+        except JSONDecodeError as e:
+            # Catch JSON-related errors and raise as requests.JSONDecodeError
+            # This aliases json.JSONDecodeError and simplejson.JSONDecodeError
+>           raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+E           requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/requests/models.py:1120: JSONDecodeError
+2026-07-13 13:05:12 conftest.py:allure_case_setup 220 [INFO]: [Allure] 用例 test_case[case1] 已记录
+2026-07-13 13:05:12 conftest.py:allure_session_setup 209 [INFO]: [Allure] 测试会话结束
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 150 [INFO]: ============================================================
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 151 [INFO]: 【测试执行结束】
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 152 [INFO]: 结束时间: 2026-07-13 13:05:12
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 153 [INFO]: 总耗时: 6.226s
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 154 [INFO]: ------------------------------------------------------------
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 155 [INFO]: 【执行统计】
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 156 [INFO]:   用例总数: 2
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 157 [INFO]:   通过: 0
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 158 [INFO]:   失败: 2
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 159 [INFO]:   跳过: 0
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 160 [INFO]:   错误: 0
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 161 [INFO]:   通过率: 0.0%
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 165 [INFO]: ------------------------------------------------------------
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 169 [INFO]: 【失败用例汇总】
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 171 [ERROR]:   ✗ test_runner_29.py::TestRunner::test_case[case0]
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 171 [ERROR]:   ✗ test_runner_29.py::TestRunner::test_case[case1]
+2026-07-13 13:05:12 conftest.py:pytest_sessionfinish 173 [INFO]: ============================================================
