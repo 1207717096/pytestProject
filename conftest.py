@@ -71,7 +71,7 @@ def pytest_sessionstart(session):
     # 记录开始时间（可读格式）
     logger.info(f"开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     # 尝试输出收集到的用例数（此时可能还未收集完）
-    logger.info(f"收集到的测试用例数: {session.testscollected if hasattr(session, 'testscollected') else '待收集'}")
+    # logger.info(f"收集到的测试用例数: {session.testscollected if hasattr(session, 'testscollected') else '待收集'}")
     logger.info("=" * 60)
 
 # pytest 钩子：收集完所有测试用例后调用

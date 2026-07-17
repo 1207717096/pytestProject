@@ -12,6 +12,9 @@ def allure_report_init(case):
 
     allure.dynamic.feature(case["feature"])
     allure.dynamic.story(case["story"])
+    
     allure.dynamic.title(f'用例ID:{case["id"]}--{case["title"]}')
+
+
 
 
