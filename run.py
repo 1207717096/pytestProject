@@ -29,7 +29,7 @@ if __name__ == '__main__':
     allure_path = os.path.join(allure_dir, f"report_{timestamp}")
     html_allure_path = os.path.join(allure_path, "html_report")
 
-    pytest.main(['-vs', './testcase/test_runner_38.py', f"--html={report_path}", "--alluredir", allure_path])
+    pytest.main(['-vs', './testcase/test_runner_40.py', f"--html={report_path}", "--alluredir", allure_path])
 
     # IDE 运行 Python 时通常不加载 ~/.zshrc，PATH 里可能没有 allure，所以用完整路径
     allure_bin = "/usr/local/allure-2.44.0/bin/allure"
