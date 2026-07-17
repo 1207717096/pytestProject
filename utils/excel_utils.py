@@ -13,7 +13,6 @@ def read_excel(file_path = EXCEL_FILE,sheet_name = SHEET_NAME):
     #打开Excel 文件
     workbook = openpyxl.load_workbook(file_path) #参数文件名
 
-
     #选择表
     worksheet = workbook[sheet_name]
 

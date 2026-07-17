@@ -1,0 +1,10 @@
+requests
+pytest
+pytest-html
+pytest-ordering
+allure-pytest
+pymysql
+openpyxl
+jinja2
+jsonpath
+pytest-rerunfailures
