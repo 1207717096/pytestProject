@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1","用例ID:6--图片上传成功","testcase","2026-07-18","broken","2026-07-18","TestRunner","test_runner_38","",""
+"","1","用例ID:4--添加一个用户，添加成功","testcase","2026-07-18","broken","2026-07-18","TestRunner","test_runner_38","",""
+"","1","用例ID:3--登录状态查询","testcase","2026-07-18","broken","2026-07-18","TestRunner","test_runner_38","",""
+"","1","用例ID:5--修改用户状态，修改成功","testcase","2026-07-18","broken","2026-07-18","TestRunner","test_runner_38","",""
+"","2556","用例ID:2--未登录状态查询用户列表失败","testcase","2026-07-18","failed","2026-07-18","TestRunner","test_runner_38","",""
+"","2776","用例ID:1--管理员登录成功","testcase","2026-07-18","broken","2026-07-18","TestRunner","test_runner_38","",""
